@@ -2,8 +2,6 @@ package calvin_klein_test.page;
 
 import calvin_klein_test.model.User;
 import io.qameta.allure.Step;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,7 +11,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class CalvinKleinCathalogPage extends AbstractPage {
-    protected final Logger logger = LogManager.getRootLogger();
     private final String productLink;
 
     public CalvinKleinCathalogPage(WebDriver driver, String cathalog) {
@@ -66,6 +63,25 @@ public class CalvinKleinCathalogPage extends AbstractPage {
         logger.info("Signed in with email: [" + testUser.getEmail() + "] and password: [" + testUser.getPassword() + "]");
 
         return this;
+    }
+
+    @Step("Get validation error")
+    public String getValidationError() {
+        By errorLocator = By.xpath("//div[@class='form-input__error']");
+
+        WebElement error;
+
+        try {
+            error = (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.visibilityOfElementLocated(errorLocator));
+        } catch (Exception e) {
+            logger.info("Validation error didn't appear");
+
+            return "";
+        }
+
+        logger.info("Validation error appeared");
+
+        return error.getText();
     }
 
     @Step("Get empty search view")

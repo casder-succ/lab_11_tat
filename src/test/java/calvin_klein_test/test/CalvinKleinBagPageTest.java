@@ -19,7 +19,7 @@ public class CalvinKleinBagPageTest extends CommonConditions {
     void testEmptyBagPage() {
         User testUser = UserCreator.withCredentialsFromProperty();
 
-        String emptyState = TestDataReader.getTestData("testdata.bag.emptystate");
+        String emptyState = TestDataReader.getTestData("testdata.pages.bag.emptystate");
         String emptyStateText = new CalvinKleinBagPage(driver)
                 .openPage()
                 .acceptCookies()

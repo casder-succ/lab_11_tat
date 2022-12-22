@@ -1,7 +1,9 @@
 package calvin_klein_test.test;
 
+import calvin_klein_test.model.User;
 import calvin_klein_test.page.CalvinKleinCathalogPage;
 import calvin_klein_test.service.TestDataReader;
+import calvin_klein_test.service.UserCreator;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -24,5 +26,24 @@ public class CalvinKleinCathalogPageTest extends CommonConditions{
                 .getEmptySearchView();
 
         Assert.assertEquals(emptyViewText, emptyView);
+    }
+
+    @Test(description = "Test sign in validation")
+    @DisplayName("Test sign in validation")
+    @Description("Tests if sign in form validated correctly")
+    @Severity(SeverityLevel.BLOCKER)
+    void testSignInValidation() {
+        String wrongEmail = TestDataReader.getTestData("testdata.user.wrongemail");
+        String wrongEmailError = TestDataReader.getTestData("testdata.validation.wrongemail");
+
+        User testUser = UserCreator.withCustomEmail(wrongEmail);
+
+        String wrongEmailResult = new CalvinKleinCathalogPage(driver, "men")
+                .openPage()
+                .acceptCookies()
+                .signIn(testUser)
+                .getValidationError();
+
+        Assert.assertEquals(wrongEmailResult, wrongEmailError);
     }
 }

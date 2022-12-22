@@ -9,4 +9,8 @@ public class UserCreator {
     public static User withCredentialsFromProperty() {
         return new User(TestDataReader.getTestData(TESTDATA_USER_EMAIL), TestDataReader.getTestData(TESTDATA_USER_PASSWORD));
     }
+
+    public static User withCustomEmail(String customEmail) {
+        return new User(customEmail, TestDataReader.getTestData(TESTDATA_USER_PASSWORD));
+    }
 }
