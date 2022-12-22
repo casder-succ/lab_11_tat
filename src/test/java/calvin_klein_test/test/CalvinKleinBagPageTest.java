@@ -7,15 +7,16 @@ import org.testng.annotations.Test;
 public class CalvinKleinBagPageTest extends CommonConditions {
     @Test(description = "Test empty bag page")
     void testEmptyBagPage() {
-        boolean isEmptyStateDisplayed = new CalvinKleinBagPage(driver)
+        String emptyState = "Your shopping bag is empty";
+        String emptyStateText = new CalvinKleinBagPage(driver)
                 .openPage()
                 .acceptCookies()
                 .closeAdsModal()
                 .signIn()
                 .reload()
-                .isEmptyStateShown();
+                .getEmptyStateText();
 
-        Assert.assertTrue(isEmptyStateDisplayed);
+        Assert.assertEquals(emptyStateText, emptyState);
     }
 
     @Test(description = "Test recommendations on empty bag page")

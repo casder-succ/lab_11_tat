@@ -67,12 +67,12 @@ public class CalvinKleinBagPage extends AbstractPage {
         return this;
     }
 
-    public boolean isEmptyStateShown() {
-        By emptyStateLocator = By.xpath("//p[text()='Your shopping bag is empty']");
+    public String getEmptyStateText() {
+        By emptyStateLocator = By.xpath("//p[@class='shoppingBag__empty--message']");
 
         WebElement emptyState = (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.elementToBeClickable(emptyStateLocator));
 
-        return emptyState.isDisplayed();
+        return emptyState.getText();
     }
 
     public boolean isRecommendationsListShown() {
