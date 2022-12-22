@@ -2,6 +2,7 @@ package calvin_klein_test.test;
 
 import calvin_klein_test.model.User;
 import calvin_klein_test.page.CalvinKleinBagPage;
+import calvin_klein_test.service.TestDataReader;
 import calvin_klein_test.service.UserCreator;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -11,7 +12,7 @@ public class CalvinKleinBagPageTest extends CommonConditions {
     void testEmptyBagPage() {
         User testUser = UserCreator.withCredentialsFromProperty();
 
-        String emptyState = "Your shopping bag is empty";
+        String emptyState = TestDataReader.getTestData("testdata.bag.emptystate");
         String emptyStateText = new CalvinKleinBagPage(driver)
                 .openPage()
                 .acceptCookies()

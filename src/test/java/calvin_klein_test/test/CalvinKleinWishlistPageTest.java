@@ -2,6 +2,7 @@ package calvin_klein_test.test;
 
 import calvin_klein_test.model.User;
 import calvin_klein_test.page.CalvinKleinWishlistPage;
+import calvin_klein_test.service.TestDataReader;
 import calvin_klein_test.service.UserCreator;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -11,8 +12,7 @@ public class CalvinKleinWishlistPageTest extends CommonConditions {
     void testEmptyWishlist() {
         User testUser = UserCreator.withCredentialsFromProperty();
 
-        String emptyView = "Looks like your wishlist is empty";
-
+        String emptyView = TestDataReader.getTestData("testdata.wishlist.emptystate");
         String emptyViewText = new CalvinKleinWishlistPage(driver)
                 .openPage()
                 .acceptCookies()
