@@ -1,6 +1,7 @@
 package calvin_klein_test.page;
 
 import calvin_klein_test.model.User;
+import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -18,6 +19,7 @@ public class CalvinKleinBagPage extends AbstractPage {
         super(driver);
     }
 
+    @Step("Open bag page")
     public CalvinKleinBagPage openPage() {
         String BAG_PAGE_URL = "https://www.calvinklein.co.uk/shopping-bag";
 
