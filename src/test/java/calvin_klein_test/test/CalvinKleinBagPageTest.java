@@ -28,9 +28,6 @@ public class CalvinKleinBagPageTest extends CommonConditions {
                 .reload()
                 .getEmptyStateText();
 
-        System.out.println(emptyState);
-        System.out.println(emptyStateText);
-
         Assert.assertEquals(emptyStateText, emptyState);
     }
 
