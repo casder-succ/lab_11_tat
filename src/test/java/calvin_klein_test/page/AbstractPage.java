@@ -8,7 +8,9 @@ public abstract class AbstractPage {
     protected final int WAIT_TIMEOUT = 30;
 
     protected abstract AbstractPage openPage();
+
     protected abstract AbstractPage acceptCookies();
+
     protected abstract AbstractPage signIn(User testUser);
 
     protected AbstractPage(WebDriver driver) {

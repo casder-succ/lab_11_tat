@@ -1,6 +1,8 @@
 package calvin_klein_test.page;
 
 import calvin_klein_test.model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class CalvinKleinWishlistPage extends AbstractPage {
+    protected final Logger logger = LogManager.getRootLogger();
 
     public CalvinKleinWishlistPage(WebDriver driver) {
         super(driver);
@@ -20,16 +23,21 @@ public class CalvinKleinWishlistPage extends AbstractPage {
 
         driver.get(WISHLIST_PAGE_URL);
 
+        logger.info("Wishlist page[" + WISHLIST_PAGE_URL + "] was opened");
+
         return this;
     }
 
-    public boolean checkIsEmptyViewDisplayed() {
-        By emptyViewLocator = By.xpath("//span[text()='Looks like your wishlist is empty']");
+    public String getEmptyViewText() {
+        By emptyViewLocator = By.xpath("//span[@class='IconWithText_text__MFBOf Typography_Typography__jHH_m ck-alias_Typography__u21R5 Typography_bodyMedium__g_5G8']");
 
         WebElement emptyViewWrapper = (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT)))
                 .until(ExpectedConditions.presenceOfElementLocated(emptyViewLocator));
+        String emptyStateText = emptyViewWrapper.getText();
 
-        return emptyViewWrapper.isDisplayed();
+        logger.info("Got empty state text for bag page: " + emptyStateText);
+
+        return emptyStateText;
     }
 
     public CalvinKleinWishlistPage acceptCookies() {
@@ -37,6 +45,8 @@ public class CalvinKleinWishlistPage extends AbstractPage {
 
         WebElement acceptCookiesButton = (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.elementToBeClickable(acceptCookiesButtonLocator));
         acceptCookiesButton.click();
+
+        logger.info("Accepted cookies");
 
         return this;
     }
@@ -52,11 +62,15 @@ public class CalvinKleinWishlistPage extends AbstractPage {
         (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.visibilityOfElementLocated(passwordFieldLocator)).sendKeys(testUser.getPassword());
         (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.elementToBeClickable(signInButtonLocator)).click();
 
+        logger.info("Signed in with email: [" + testUser.getEmail() + "] and password: [" + testUser.getPassword() + "]");
+
         return this;
     }
 
     public CalvinKleinWishlistPage reload() {
         driver.navigate().refresh();
+
+        logger.info("Page was reloaded");
 
         return this;
     }

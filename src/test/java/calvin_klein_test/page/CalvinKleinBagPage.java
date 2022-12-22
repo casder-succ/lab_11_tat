@@ -1,6 +1,8 @@
 package calvin_klein_test.page;
 
 import calvin_klein_test.model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,6 +12,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class CalvinKleinBagPage extends AbstractPage {
+    protected final Logger logger = LogManager.getRootLogger();
+
     public CalvinKleinBagPage(WebDriver driver) {
         super(driver);
     }
@@ -18,6 +22,8 @@ public class CalvinKleinBagPage extends AbstractPage {
         String BAG_PAGE_URL = "https://www.calvinklein.co.uk/shopping-bag";
 
         driver.get(BAG_PAGE_URL);
+
+        logger.info("Bag page[" + BAG_PAGE_URL + "] was opened");
 
         return this;
     }
@@ -33,6 +39,8 @@ public class CalvinKleinBagPage extends AbstractPage {
         (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.visibilityOfElementLocated(passwordFieldLocator)).sendKeys(testUser.getPassword());
         (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.elementToBeClickable(signInButtonLocator)).click();
 
+        logger.info("Signed in with email: [" + testUser.getEmail() + "] and password: [" + testUser.getPassword() + "]");
+
         return this;
     }
 
@@ -42,6 +50,8 @@ public class CalvinKleinBagPage extends AbstractPage {
         WebElement acceptCookiesButton = (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.elementToBeClickable(acceptCookiesButtonLocator));
         acceptCookiesButton.click();
 
+        logger.info("Accepted cookies");
+
         return this;
     }
 
@@ -50,9 +60,12 @@ public class CalvinKleinBagPage extends AbstractPage {
         By modalCloseButtonLocator = By.xpath("//button[@class='ck-Button__no-style ck-modal__close-btn']");
 
         try {
-            WebElement adsModal =(new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.elementToBeClickable(adsModalLocator));
+            WebElement adsModal = (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.elementToBeClickable(adsModalLocator));
             adsModal.findElement(modalCloseButtonLocator).click();
+
+            logger.info("Ads modal was closed");
         } catch (Exception e) {
+            logger.info("Ads modal didn't appear");
             return this;
         }
 
@@ -62,6 +75,8 @@ public class CalvinKleinBagPage extends AbstractPage {
     public CalvinKleinBagPage reload() {
         driver.navigate().refresh();
 
+        logger.info("Bag page was reloaded");
+
         return this;
     }
 
@@ -69,14 +84,19 @@ public class CalvinKleinBagPage extends AbstractPage {
         By emptyStateLocator = By.xpath("//p[@class='shoppingBag__empty--message']");
 
         WebElement emptyState = (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.elementToBeClickable(emptyStateLocator));
+        String emptyStateText = emptyState.getText();
 
-        return emptyState.getText();
+        logger.info("Got empty state text for bag page: " + emptyStateText);
+
+        return emptyStateText;
     }
 
     public boolean isRecommendationsListShown() {
         By recommendationsLocator = By.xpath("//div[@class='recommendations basket']");
 
         WebElement recommendations = (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.elementToBeClickable(recommendationsLocator));
+
+        logger.info("Got recommendations list: " + recommendations.isDisplayed());
 
         return recommendations.isDisplayed();
     }

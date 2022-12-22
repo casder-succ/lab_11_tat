@@ -11,13 +11,15 @@ public class CalvinKleinWishlistPageTest extends CommonConditions {
     void testEmptyWishlist() {
         User testUser = UserCreator.withCredentialsFromProperty();
 
-        boolean isEmptyViewDisplayed = new CalvinKleinWishlistPage(driver)
+        String emptyView = "Looks like your wishlist is empty";
+
+        String emptyViewText = new CalvinKleinWishlistPage(driver)
                 .openPage()
                 .acceptCookies()
                 .signIn(testUser)
                 .reload()
-                .checkIsEmptyViewDisplayed();
+                .getEmptyViewText();
 
-        Assert.assertTrue(isEmptyViewDisplayed);
+        Assert.assertEquals(emptyViewText, emptyView);
     }
 }
