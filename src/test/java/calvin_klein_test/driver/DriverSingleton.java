@@ -8,15 +8,21 @@ import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DriverSingleton {
     public static WebDriver driver;
+    private static List<Long> threadIds = new ArrayList<>();
 
     private DriverSingleton() {
     }
 
     public static WebDriver getDriver() {
-        if (driver == null) {
+        if (driver == null && !threadIds.contains(Thread.currentThread().getId())) {
             String browser = System.getProperty("browser") == null ? "" : System.getProperty("browser");
+
+            threadIds.add(Thread.currentThread().getId());
 
             switch (browser) {
                 case "chrome": {
@@ -60,5 +66,6 @@ public class DriverSingleton {
     public static void closeDriver() {
         driver.quit();
         driver = null;
+        threadIds.remove(Thread.currentThread().getId());
     }
 }
