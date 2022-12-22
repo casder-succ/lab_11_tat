@@ -8,21 +8,20 @@ import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DriverSingleton {
-    public static WebDriver driver;
-    private static List<Long> threadIds = new ArrayList<>();
+    private static final Map<Long, WebDriver> drivers = new HashMap<>();
 
     private DriverSingleton() {
     }
 
     public static WebDriver getDriver() {
-        if (driver == null && !threadIds.contains(Thread.currentThread().getId())) {
-            String browser = System.getProperty("browser") == null ? "" : System.getProperty("browser");
+        long threadId = Thread.currentThread().getId();
 
-            threadIds.add(Thread.currentThread().getId());
+        if (!drivers.containsKey(threadId)) {
+            String browser = System.getProperty("browser") == null ? "" : System.getProperty("browser");
 
             switch (browser) {
                 case "chrome": {
@@ -31,7 +30,7 @@ public class DriverSingleton {
                     ChromeOptions options = new ChromeOptions();
                     options.addArguments("--headless", "--no-sandbox");
 
-                    driver = new ChromeDriver();
+                    drivers.put(threadId, new ChromeDriver());
                 }
                 case "firefox": {
                     WebDriverManager.firefoxdriver().setup();
@@ -43,7 +42,7 @@ public class DriverSingleton {
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
                     firefoxOptions.setBinary(firefoxBinary);
 
-                    driver = new FirefoxDriver(firefoxOptions);
+                    drivers.put(threadId, new FirefoxDriver(firefoxOptions));
                 }
                 default: {
                     WebDriverManager.firefoxdriver().setup();
@@ -55,19 +54,19 @@ public class DriverSingleton {
                     FirefoxOptions firefoxOptions = new FirefoxOptions();
                     firefoxOptions.setBinary(firefoxBinary);
 
-                    driver = new FirefoxDriver(firefoxOptions);
+                    drivers.put(threadId, new FirefoxDriver(firefoxOptions));
                 }
             }
         }
 
-        return driver;
+        return drivers.get(threadId);
     }
 
     public static void closeDriver() {
-        if (threadIds.contains(Thread.currentThread().getId())){
-            driver.quit();
-            driver = null;
-            threadIds.remove(Thread.currentThread().getId());
+        long threadId = Thread.currentThread().getId();
+        if (drivers.containsKey(threadId)) {
+            drivers.get(threadId).quit();
+            drivers.remove(threadId);
         }
     }
 }
