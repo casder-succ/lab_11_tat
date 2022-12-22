@@ -58,12 +58,10 @@ public class CalvinKleinBagPage extends AbstractPage {
     }
 
     public CalvinKleinBagPage closeAdsModal() {
-        By adsModalLocator = By.xpath("//div[@class='ck-modal__backdrop ck-modal__backdrop--open']");
         By modalCloseButtonLocator = By.xpath("//button[@class='ck-Button__no-style ck-modal__close-btn']");
 
         try {
-            WebElement adsModal = (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.elementToBeClickable(adsModalLocator));
-            adsModal.findElement(modalCloseButtonLocator).click();
+            (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.elementToBeClickable(modalCloseButtonLocator)).click();
 
             logger.info("Ads modal was closed");
         } catch (Exception e) {
@@ -101,5 +99,17 @@ public class CalvinKleinBagPage extends AbstractPage {
         logger.info("Got recommendations list: " + recommendations.isDisplayed());
 
         return recommendations.isDisplayed();
+    }
+
+    @Step("Get lat item in a bag")
+    public String getLastItemDescription() {
+        By lastItemLocator = By.xpath("//a[@class='csr-link link ProductItem__description']");
+
+        WebElement lastItemDescription = (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT)))
+                .until(ExpectedConditions.visibilityOfElementLocated(lastItemLocator));
+
+        logger.info("Get last item description: " + lastItemDescription.getText());
+
+        return lastItemDescription.getText();
     }
 }

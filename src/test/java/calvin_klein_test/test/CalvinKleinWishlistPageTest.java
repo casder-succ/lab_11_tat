@@ -19,7 +19,8 @@ public class CalvinKleinWishlistPageTest extends CommonConditions {
     void testEmptyWishlist() {
         User testUser = UserCreator.withCredentialsFromProperty();
 
-        String emptyView = TestDataReader.getTestData("testdata.wishlist.emptystate");
+        String emptyView = TestDataReader.getTestData("testdata.pages.wishlist.emptystate");
+
         String emptyViewText = new CalvinKleinWishlistPage(driver)
                 .openPage()
                 .acceptCookies()
