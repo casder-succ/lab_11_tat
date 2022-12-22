@@ -7,6 +7,8 @@ public class TestDataReader {
     private static final ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName);
 
     public static String getTestData(String key) {
-        return resourceBundle.getString(key);
+        String result = resourceBundle.getString(key);
+
+        return result.substring(1, result.length() - 1);
     }
 }
