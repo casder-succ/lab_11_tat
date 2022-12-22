@@ -1,5 +1,6 @@
 package calvin_klein_test.page;
 
+import calvin_klein_test.model.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,18 +22,15 @@ public class CalvinKleinBagPage extends AbstractPage {
         return this;
     }
 
-    public CalvinKleinBagPage signIn() {
-        String ACCOUNT_EMAIL = "casderiopus1@gmail.com";
-        String ACCOUNT_PASSWORD = "casdercasder";
-
+    public CalvinKleinBagPage signIn(User testUser) {
         By registerButtonLocator = By.xpath("//button[@class='ck-Button__no-style header-account__sign-in']");
         By loginFieldLocator = By.id("logonId");
         By passwordFieldLocator = By.id("logonPassword");
         By signInButtonLocator = By.xpath("//button[@class='ck-Button ck-Button__primary ck-Button--with-icon ck-Button--full-width login-popup__secondary-action-send']");
 
         (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.elementToBeClickable(registerButtonLocator)).click();
-        (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.visibilityOfElementLocated(loginFieldLocator)).sendKeys(ACCOUNT_EMAIL);
-        (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.visibilityOfElementLocated(passwordFieldLocator)).sendKeys(ACCOUNT_PASSWORD);
+        (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.visibilityOfElementLocated(loginFieldLocator)).sendKeys(testUser.getEmail());
+        (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.visibilityOfElementLocated(passwordFieldLocator)).sendKeys(testUser.getPassword());
         (new WebDriverWait(driver, Duration.ofSeconds(WAIT_TIMEOUT))).until(ExpectedConditions.elementToBeClickable(signInButtonLocator)).click();
 
         return this;
