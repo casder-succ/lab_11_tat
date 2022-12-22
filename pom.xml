@@ -70,7 +70,7 @@
                             <value>io.qameta.allure.junit4.AllureJunit4</value>
                         </property>
                     </properties>
-                    <suiteXmlFiles>testng.xml</suiteXmlFiles>
+<!--                    <suiteXmlFiles>testng.xml</suiteXmlFiles>-->
                 </configuration>
                 <dependencies>
                     <dependency>
