@@ -3,6 +3,7 @@ package calvin_klein_test.driver;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -20,11 +21,23 @@ public class DriverSingleton {
             switch (browser) {
                 case "chrome": {
                     WebDriverManager.chromedriver().setup();
+
+                    ChromeOptions options = new ChromeOptions();
+                    options.addArguments("--headless", "--no-sandbox");
+
                     driver = new ChromeDriver();
                 }
                 case "firefox": {
                     WebDriverManager.firefoxdriver().setup();
-                    driver = new FirefoxDriver();
+
+                    FirefoxBinary firefoxBinary = new FirefoxBinary();
+                    firefoxBinary.addCommandLineOptions("--headless");
+                    firefoxBinary.addCommandLineOptions("--no-sandbox");
+
+                    FirefoxOptions firefoxOptions = new FirefoxOptions();
+                    firefoxOptions.setBinary(firefoxBinary);
+
+                    driver = new FirefoxDriver(firefoxOptions);
                 }
                 default: {
                     WebDriverManager.firefoxdriver().setup();
