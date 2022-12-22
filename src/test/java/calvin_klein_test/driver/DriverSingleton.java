@@ -64,8 +64,10 @@ public class DriverSingleton {
     }
 
     public static void closeDriver() {
-        driver.quit();
-        driver = null;
-        threadIds.remove(Thread.currentThread().getId());
+        if (threadIds.contains(Thread.currentThread().getId())){
+            driver.quit();
+            driver = null;
+            threadIds.remove(Thread.currentThread().getId());
+        }
     }
 }
