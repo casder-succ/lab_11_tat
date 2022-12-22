@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Parallel Test Suite" parallel="tests" thread-count="2">
-    <test name="Bag Page Test">
+<suite name="Parallel Test Suite" parallel="classes" thread-count="2">
+    <test name="Parallel Test" >
         <classes>
-            <class name="calvin_klein_test.test.CalvinKleinBagPageTest" />
+            <class name="calvin_klein_test.test.CalvinKleinWishlistPageTest"/>
+            <class name="calvin_klein_test.test.CalvinKleinBagPageTest"/>
         </classes>
-    </test>
-
-    <test name="Wishlist Page Test">
-        <classes>
-            <class name="calvin_klein_test.test.CalvinKleinWishlistPageTest" />
-        </classes>
-    </test>
+    </test> <!-- Test -->
 </suite>
